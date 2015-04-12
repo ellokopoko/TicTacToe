@@ -21055,7 +21055,7 @@ return jQuery;
         }
         onClickCell = (function(_this) {
           return function(e) {
-            return self.manager("#" + $(e.target).attr("id"));
+            return self.manager($(e.target).attr("id"));
           };
         })(this);
         $(area).on("click", td, onClickCell);
@@ -21064,11 +21064,11 @@ return jQuery;
       TicTacToe.prototype.setValue = function(cell, value) {
         var error;
         try {
-          if (typeof value !== "boolean") {
-            return console.log("Неверный тип данных. Ожидается Boolean");
-          }
           if (typeof cell !== "string") {
             return console.log("Неверный тип данных. Ожидается String");
+          }
+          if (typeof value !== "boolean") {
+            return console.log("Неверный тип данных. Ожидается Boolean");
           }
           return this[cell] = value;
         } catch (_error) {
@@ -21088,10 +21088,12 @@ return jQuery;
 
       TicTacToe.prototype.manager = function(id) {
         if (this.whose_turn === 1) {
-          $(id).addClass("showC");
+          $("#" + id).addClass("showC");
+          this.setValue(id, true);
         }
         if (this.whose_turn === 2) {
-          $(id).addClass("showZ");
+          $("#" + id).addClass("showZ");
+          this.setValue(id, false);
         }
         return this.passTurn();
       };
