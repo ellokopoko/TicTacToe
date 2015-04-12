@@ -1,0 +1,37 @@
+//@import "compass"
+@import "compass/reset"
+
+table
+    margin:                                      0 auto
+    border-spacing:                              0px
+
+tr
+    height:                                      40px
+    width:                                       40px
+    
+    &:first-child td
+        border-top:                              none
+            
+    td:last-child
+        border-right:                            none
+
+    &:last-child td
+        border-bottom:                           none
+
+    td:first-child 
+        border-left:                             none
+
+td
+    border:                                      2px solid #dadada
+    height:                                      38px
+    width:                                       38px
+        
+.cross, .zero
+    margin:                                      0 auto
+    display:                                     none
+        
+.showC .cross
+    display:                                     block
+        
+.showZ .zero
+    display:                                     block
