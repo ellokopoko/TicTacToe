@@ -21053,12 +21053,14 @@ return jQuery;
           i = id[_i];
           this[i] = null;
         }
-        onClickCell = (function(_this) {
-          return function(e) {
-            return self.manager($(e.target).attr("id"));
-          };
-        })(this);
-        $(area).on("click", td, onClickCell);
+        onClickCell = function(e) {
+          id = $(this).attr("id");
+          if (self[id] !== null) {
+            return;
+          }
+          return self.manager(id);
+        };
+        $(area).on("click", "td", onClickCell);
       }
 
       TicTacToe.prototype.setValue = function(cell, value) {

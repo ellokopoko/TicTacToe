@@ -40,10 +40,12 @@ $ ->
             for i in id
                 @[i] = null
                 
-            onClickCell = (e)=>
-                self.manager($(e.target).attr("id"))
+            onClickCell = (e)->
+                id = $(@).attr("id")
+                return if self[id] != null
+                self.manager(id)
                 
-            $(area).on("click", td, onClickCell)        
+            $(area).on("click", "td", onClickCell)        
         # ! ---- Consctructor ---- ! 
         
         
