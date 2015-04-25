@@ -1,12 +1,13 @@
 $ ->
  
-    ttt = new TicTacToe(size: 4)
+    ttt = new TicTacToe(size: 15)
     #alert ttt.cells_from_which_builds_diagonal.cells_right_to_left
     #alert ttt.cells_from_which_builds_diagonal.cells_left_to_right
     #for i in ttt.diagonallyCells
         #alert i
-    for i in ttt.allCells
-        alert i
+    #for i in ttt.allCells
+        #alert i
+
     
     
     mike = new Player(name: "Mike")

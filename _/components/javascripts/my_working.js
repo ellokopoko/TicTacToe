@@ -50,7 +50,9 @@
       this.size = size = this.options.size;
       this.whose_turn = 1;
       self = this;
-      this.shape_in_row = 3;
+      this.shape_in_row = 5;
+      this.all_moves = 0;
+      this.game_over = false;
       this.lengthInLetters = (function() {
         var arr, i, _i, _ref;
         arr = [' '];
@@ -144,6 +146,9 @@
         this[i] = null;
       }
       onClickCell = function(e) {
+        if (self.game_over) {
+          return;
+        }
         id = $(this).attr("id");
         if (self[id] !== null) {
           return;
@@ -159,10 +164,11 @@
         if (typeof cell !== "string") {
           return console.log("Неверный тип данных. Ожидается String");
         }
-        if (typeof value !== "boolean") {
+        if (typeof value !== "number") {
           return console.log("Неверный тип данных. Ожидается Boolean");
         }
-        return this[cell] = value;
+        this[cell] = value;
+        return this.all_moves++;
       } catch (_error) {
         error = _error;
         return console.log(error);
@@ -181,13 +187,55 @@
     TicTacToe.prototype.manager = function(id) {
       if (this.whose_turn === 1) {
         $("#" + id).addClass("showC");
-        this.setValue(id, true);
+        this.setValue(id, 1);
       }
       if (this.whose_turn === 2) {
         $("#" + id).addClass("showZ");
-        this.setValue(id, false);
+        this.setValue(id, 2);
+      }
+      console.log(this.all_moves);
+      if (this.findItemsConsecutive()) {
+        this.game_over = true;
+        alert("Победил " + (this.findItemsConsecutive().winner) + " игрок");
+        console.log(this.findItemsConsecutive().line_winner);
+        return;
+      }
+      if (this.size * this.size === this.all_moves) {
+        this.game_over = true;
+        alert("Ничья!");
+        return;
       }
       return this.passTurn();
+    };
+
+    TicTacToe.prototype.findItemsConsecutive = function() {
+      var count, i, iteam, lines, prev_iteam, _i, _j, _len, _len1, _ref;
+      count = 0;
+      _ref = this.allCells;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        lines = _ref[_i];
+        iteam = void 0;
+        prev_iteam = void 0;
+        count = 0;
+        for (_j = 0, _len1 = lines.length; _j < _len1; _j++) {
+          i = lines[_j];
+          iteam = this[i];
+          if (iteam === null) {
+            continue;
+          }
+          if (iteam === prev_iteam || prev_iteam === void 0) {
+            count++;
+          }
+          if (count === this.shape_in_row) {
+            return {
+              winner: iteam,
+              line_winner: lines
+            };
+          }
+          prev_iteam = iteam;
+        }
+      }
+      return false;
     };
 
     TicTacToe.prototype.checkHorizontal = function(amount_numbers_in_row) {
@@ -256,15 +304,10 @@
   })();
 
   $(function() {
-    var bill, i, mike, ttt, _i, _len, _ref;
+    var bill, mike, ttt;
     ttt = new TicTacToe({
-      size: 4
+      size: 15
     });
-    _ref = ttt.allCells;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      i = _ref[_i];
-      alert(i);
-    }
     mike = new Player({
       name: "Mike"
     });

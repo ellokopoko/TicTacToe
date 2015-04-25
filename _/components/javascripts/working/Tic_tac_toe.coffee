@@ -27,7 +27,9 @@ class TicTacToe
         @size = size            = @options.size
         @whose_turn             = 1
         self                    = this
-        @shape_in_row           = 3
+        @shape_in_row           = 5
+        @all_moves              = 0
+        @game_over              = false
         @lengthInLetters        = (->
             arr = [' ']
             for i in [0...@size]
@@ -114,6 +116,7 @@ class TicTacToe
             @[i] = null
             
         onClickCell = (e)->
+            return if self.game_over
             id = $(@).attr("id")
             return if self[id] != null
             self.manager(id)
@@ -126,8 +129,9 @@ class TicTacToe
     setValue: (cell, value)->
         try
             return console.log "Неверный тип данных. Ожидается String" unless typeof cell == "string"
-            return console.log "Неверный тип данных. Ожидается Boolean" unless typeof value == "boolean"
+            return console.log "Неверный тип данных. Ожидается Boolean" unless typeof value == "number"
             @[cell] = value
+            @all_moves++
         catch error
             console.log error
     # ! ---- Set Value ---- !
@@ -147,13 +151,42 @@ class TicTacToe
     manager: (id)->
         if @whose_turn == 1
             $("#" + id).addClass("showC")
-            @setValue(id, true)
+            @setValue(id, 1)
         if @whose_turn == 2
             $("#" + id).addClass("showZ")
-            @setValue(id, false)
+            @setValue(id, 2)
+        console.log @all_moves
+        if @findItemsConsecutive()
+            @game_over = true
+            alert "Победил #{@findItemsConsecutive().winner} игрок"
+            console.log @findItemsConsecutive().line_winner
+            return
+        if @size*@size == @all_moves
+            @game_over = true
+            alert "Ничья!"
+            return
         @passTurn()
     # ! ---- Manager ---- !
     
+    
+    
+    findItemsConsecutive: ->
+        count       = 0
+        for lines in @allCells
+            iteam           = undefined
+            prev_iteam      = undefined
+            count           = 0
+            
+            for i in lines
+                iteam = @[i]
+                if iteam == null then continue
+                if iteam == prev_iteam || prev_iteam == undefined
+                    count++
+                if count == @shape_in_row
+                    return winner: iteam, line_winner: lines 
+                prev_iteam  = iteam
+        false
+        
     
     
     
