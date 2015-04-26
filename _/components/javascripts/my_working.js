@@ -221,6 +221,7 @@
           i = lines[_j];
           iteam = this[i];
           if (iteam === null) {
+            prev_iteam = iteam;
             continue;
           }
           if (iteam === prev_iteam || prev_iteam === void 0) {

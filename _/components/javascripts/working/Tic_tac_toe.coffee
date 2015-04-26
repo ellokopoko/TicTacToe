@@ -179,7 +179,9 @@ class TicTacToe
             
             for i in lines
                 iteam = @[i]
-                if iteam == null then continue
+                if iteam == null
+                    prev_iteam  = iteam
+                    continue
                 if iteam == prev_iteam || prev_iteam == undefined
                     count++
                 if count == @shape_in_row

@@ -1,4 +1,4 @@
-/*! TicTacToe 2015-04-25 */
+/*! TicTacToe 2015-04-26 */
 /*!
  * jQuery JavaScript Library v2.1.3
  * http://jquery.com/
@@ -21232,6 +21232,7 @@ return jQuery;
           i = lines[_j];
           iteam = this[i];
           if (iteam === null) {
+            prev_iteam = iteam;
             continue;
           }
           if (iteam === prev_iteam || prev_iteam === void 0) {
