@@ -146,6 +146,7 @@
         this[i] = null;
       }
       onClickCell = function(e) {
+        console.log("click");
         if (self.game_over) {
           return;
         }
@@ -160,6 +161,7 @@
 
     TicTacToe.prototype.setValue = function(cell, value) {
       var error;
+      console.log("set");
       try {
         if (typeof cell !== "string") {
           return console.log("Неверный тип данных. Ожидается String");
@@ -209,31 +211,29 @@
     };
 
     TicTacToe.prototype.findItemsConsecutive = function() {
-      var count, i, iteam, lines, prev_iteam, _i, _j, _len, _len1, _ref;
+      var count, i, iteam, lines, num, prev_iteam, _i, _j, _len, _len1, _ref;
+      console.log("calc");
       count = 0;
       _ref = this.allCells;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         lines = _ref[_i];
-        iteam = void 0;
-        prev_iteam = void 0;
         count = 0;
-        for (_j = 0, _len1 = lines.length; _j < _len1; _j++) {
-          i = lines[_j];
+        for (num = _j = 0, _len1 = lines.length; _j < _len1; num = ++_j) {
+          i = lines[num];
           iteam = this[i];
-          if (iteam === null) {
-            prev_iteam = iteam;
-            continue;
+          if (iteam !== prev_iteam) {
+            count = 0;
           }
-          if (iteam === prev_iteam || prev_iteam === void 0) {
+          if (iteam !== null) {
             count++;
           }
+          prev_iteam = iteam;
           if (count === this.shape_in_row) {
             return {
               winner: iteam,
               line_winner: lines
             };
           }
-          prev_iteam = iteam;
         }
       }
       return false;

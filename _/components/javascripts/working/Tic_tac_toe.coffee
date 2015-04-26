@@ -116,6 +116,7 @@ class TicTacToe
             @[i] = null
             
         onClickCell = (e)->
+            console.log "click"
             return if self.game_over
             id = $(@).attr("id")
             return if self[id] != null
@@ -127,6 +128,7 @@ class TicTacToe
     
     
     setValue: (cell, value)->
+        console.log "set"
         try
             return console.log "Неверный тип данных. Ожидается String" unless typeof cell == "string"
             return console.log "Неверный тип данных. Ожидается Boolean" unless typeof value == "number"
@@ -171,22 +173,23 @@ class TicTacToe
     
     
     findItemsConsecutive: ->
+        console.log "calc"
         count       = 0
         for lines in @allCells
-            iteam           = undefined
-            prev_iteam      = undefined
             count           = 0
             
-            for i in lines
+            for i, num in lines
                 iteam = @[i]
-                if iteam == null
-                    prev_iteam  = iteam
-                    continue
-                if iteam == prev_iteam || prev_iteam == undefined
+                
+                if iteam != prev_iteam
+                    count = 0
+                if iteam != null
                     count++
+                    
+                prev_iteam  = iteam
+                
                 if count == @shape_in_row
                     return winner: iteam, line_winner: lines 
-                prev_iteam  = iteam
         false
         
     
